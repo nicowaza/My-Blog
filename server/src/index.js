@@ -8,13 +8,14 @@ const { SERVER_PORT } = process.env
 import { connect } from './config/DB'
 import { getConfig } from './config/config'
 import { restRouter } from './api'
+import cors from "cors"
 
 const config = getConfig(process.env.NODE_ENV)
 const port = process.env.PORT || 6543
 const app = express()
 
 connect()
-
+app.use(cors())
 app.use(volleyball)
 app.use(express.json())
 app.use(express.urlencoded({

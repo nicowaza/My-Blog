@@ -1119,6 +1119,10 @@ var _config = __webpack_require__(30);
 
 var _api = __webpack_require__(55);
 
+var _cors = __webpack_require__(104);
+
+var _cors2 = _interopRequireDefault(_cors);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SERVER_PORT = process.env.SERVER_PORT;
@@ -1129,7 +1133,7 @@ var port = process.env.PORT || 6543;
 var app = (0, _express2.default)();
 
 (0, _DB.connect)();
-
+app.use((0, _cors2.default)());
 app.use(_volleyball2.default);
 app.use(_express2.default.json());
 app.use(_express2.default.urlencoded({
@@ -4013,6 +4017,12 @@ exports.default = {
 /***/ (function(module, exports) {
 
 module.exports = require("jsonwebtoken");
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports) {
+
+module.exports = require("cors");
 
 /***/ })
 /******/ ]);

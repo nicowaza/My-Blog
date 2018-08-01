@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import axios from "axios"
 import { withRouter } from 'react-router-dom'/*pour redirect à partir d'une action on doit utiliser withRouter*/
-import { connect } from "react-redux";
-import { registerUser } from "../actions/authActions";
+// import { connect } from "react-redux";
+// import { registerUser } from "../actions/authActions";
 
 class Register extends Component {
   constructor() {
@@ -23,7 +24,7 @@ class Register extends Component {
   //   if(nextProps.errors){
   //     this.setState({errors: nextProps.errors})
   //   }
-  
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -39,11 +40,12 @@ class Register extends Component {
       password2: this.state.password2,
       // errors: {}
     };
-
-    this.props.registerUser(newUser, this.props.history); /*redirect avec authActions*/
+    axios
+      .post('/api/users/register', newUser)
+      .then(res => this.props.history.push('/login'))
+      .catch(errors => console.log(errors))
   }
   render() {
-    const { errors } = this.props
 
     return (
       <div className="register">
@@ -132,14 +134,14 @@ class Register extends Component {
 }
 
 //Pour pouvoir mapper les propriétés de le composant Register
-Register.propTypes = {
-  registerUser: PropTypes.func.isRequired /*ici registerUser est une fonction*/,
-  auth: PropTypes.object.isRequired /*auth est un object*/
-};
+// Register.propTypes = {
+//   registerUser: PropTypes.func.isRequired /*ici registerUser est une fonction*/,
+//   auth: PropTypes.object.isRequired /*auth est un object*/
+// };
+//
+// const mapStateToProps = state => ({
+//   auth: state.auth, /*mets le auth state dans une propriété qu'on pourra rapl plus tard avec this.props.auth + .user ou .isAuthenticated ou autre. Lauth de state.auth vient du rootReducer dans l'index(dans combineReducers) => auth: authReducer*/
+//   errors: state.errors
+// });
 
-const mapStateToProps = state => ({
-  auth: state.auth, /*mets le auth state dans une propriété qu'on pourra rapl plus tard avec this.props.auth + .user ou .isAuthenticated ou autre. Lauth de state.auth vient du rootReducer dans l'index(dans combineReducers) => auth: authReducer*/
-  errors: state.errors
-});
-
-export default connect(mapStateToProps, { registerUser })(withRouter(Register));
+export default Register;

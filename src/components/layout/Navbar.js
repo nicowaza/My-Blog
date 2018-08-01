@@ -2,7 +2,36 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
 
 class Navbar extends Component {
+
+  logout = () => {
+    localStorage.removeItem("jwtToken")
+  }
+
   render() {
+    const guestLink = (
+      <ul className="navbar-nav ml-auto">
+      <li className="nav-item">
+        <NavLink className="nav-link" to="/register">
+          Sign Up
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link" to="/login">
+          Login
+        </NavLink>
+      </li>
+    </ul>
+    )
+
+    const logout = (
+      <ul className="navbar-nav ml-auto">
+      <li onClick={this.logout}  className="nav-item">
+        <NavLink className="nav-link" to="/login">
+          Logout
+        </NavLink>
+      </li>
+    </ul>
+    )
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
         <div className="container">
@@ -19,19 +48,7 @@ class Navbar extends Component {
           </button>
 
           <div className="collapse navbar-collapse" id="mobile-nav">
-
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/register">
-                  Sign Up
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/login">
-                  Login
-                </NavLink>
-              </li>
-            </ul>
+            {localStorage.jwtToken ? logout : guestLink}
           </div>
         </div>
       </nav>

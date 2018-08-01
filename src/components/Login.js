@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 
 
 class Login extends Component {
@@ -23,8 +24,14 @@ class Login extends Component {
         email: this.state.email,
         password: this.state.password
       }
-      console.log(user)
+    axios.post('http://localhost:6543/api/users/login', user)
+      .then(res => {
+        console.log(res)
+        localStorage.setItem("jwtToken", res.data)
+      })
+      .catch(err => console.log(err))
     }
+
   render () {
     return(
       <div className="login">

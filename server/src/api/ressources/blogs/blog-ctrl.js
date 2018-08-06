@@ -12,8 +12,14 @@ export default {
       if (error && error.details) {
         return res.status(400).json(error);
       }
+      console.log(req.user)
+      const blog = await Blog.create( {
+        title: req.body.title,
+        text: req.body.text,
+        user: req.user.id,
+        author: req.user.userName
+       });
 
-      const blog = await Blog.create(value, { user: req.user._id });
       return res.json(blog);
     } catch (err) {
       console.error(err);

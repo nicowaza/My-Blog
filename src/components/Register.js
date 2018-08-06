@@ -39,12 +39,14 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2,
       // errors: {}
-    };
+    }
+
     axios
       .post('/api/users/register', newUser)
       .then(res => this.props.history.push('/login'))
       .catch(errors => console.log(errors))
   }
+
   render() {
 
     return (

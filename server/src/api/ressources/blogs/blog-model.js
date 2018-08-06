@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import moment from 'moment'
 
 const { Schema } = mongoose
 
@@ -16,12 +17,16 @@ const blogSchema = new Schema ({
     required: true
   },
   date: {
-    type: Date,
-    default: Date.now()
+    type: String,
+    default: moment().format('Do MMMM YYYY')
   },
   ispublished: {
     type: Boolean,
     default: true
+  },
+  author: {
+    type: mongoose.Schema.Types.String,
+    ref: 'User'
   },
   likes: [
     {
@@ -48,8 +53,8 @@ const blogSchema = new Schema ({
         type: String
       },
       date: {
-        type: Date,
-        default: Date.now
+        type: String,
+        default: moment().format('Do MMMM YYYY')
       }
     }
   ],

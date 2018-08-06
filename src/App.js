@@ -11,9 +11,12 @@ import Login from './components/Login'
 import PublishedBlog from './components/PublishedBlog'
 import UnPublishedBlog from './components/UnPublishedBlog'
 import SingleBlog from './components/SingleBlog'
-
+import setAuthToken from './axios-default'
 import './App.css';
 
+if(localStorage.jwtToken) {
+  setAuthToken(localStorage.jwtToken);
+}
 
 
 class App extends Component {

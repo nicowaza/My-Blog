@@ -12,7 +12,7 @@ const auth =passport.authenticate('jwt', {session:false})
   blogRouter.get('/unpublished',adminLogin, blogControler.findUnpublished)
   blogRouter.post('/add', adminLogin, blogControler.addBlog)
 
-  blogRouter.get('/:id', auth, blogControler.findOne)
+  blogRouter.get('/:id', blogControler.findOne)
   blogRouter.put('/:id', adminLogin, blogControler.updateBlog)
   blogRouter.delete('/:id', adminLogin, blogControler.deleteBlog)
 

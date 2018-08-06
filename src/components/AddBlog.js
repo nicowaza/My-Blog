@@ -1,17 +1,48 @@
 import React, { Component } from "react";
+import axios from 'axios'
+
+
 
 class AddBlog extends Component {
+  constructor(){
+    super()
+    this.state = {
+      title: "",
+      text:"",
+      ispublished: true
+    }
+    this.onChange= this.onChange.bind(this)
+    this.onSubmit= this.onSubmit.bind(this)
+  }
+
+  onChange(e) {
+    this.setState({[e.target.name]: e.target.value})
+  }
+
+  onSubmit(e) {
+    e.preventDefault()
+    const blog = {
+      title : this.state.title,
+      text: this.state.text,
+      ispublished: this.state.ispublished
+    }
+  axios.post('http://localhost:6543/api/blogs/add', blog)
+    .then(res => {
+      console.log(res)
+      this.props.history.push("/")
+    })
+    .catch(err => console.log(err))
+  }
   render() {
     return (
       <div className="container">
-        <form>
+        <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <input
               className="form-control"
               placeholder="Titre"
               name="title"
-              // value={this.state.lastName}
-              // onChange={this.onChange}
+              onChange={this.onChange}
               type="text"
             />
           </div>
@@ -20,20 +51,19 @@ class AddBlog extends Component {
             <textarea
               className="form-control"
               id="exampleFormControlTextarea1"
-              placeholder="Titre"
-              name="title"
-              // value={this.state.lastName}
-              // onChange={this.onChange}
+              placeholder="text"
+              name="text"
+              onChange={this.onChange}
               type="text"
               rows={3}
-              defaultValue={""}
-            />
+              />
           </div>
 
           <div className="form-group form-check">
             <input
               className="form-check-input"
-              id="exampleCheck1"
+              name="ispublished"
+              value= "false"
               type="checkbox"
             />
             <label className="form-check-label" htmlFor="exampleCheck1">

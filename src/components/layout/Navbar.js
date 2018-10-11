@@ -8,6 +8,7 @@ class Navbar extends Component {
   }
 
   render() {
+
     const guestLink = (
       <ul className="navbar-nav ml-auto">
       <li className="nav-item">
@@ -18,6 +19,21 @@ class Navbar extends Component {
       <li className="nav-item">
         <NavLink className="nav-link" to="/login">
           Login
+        </NavLink>
+      </li>
+    </ul>
+    )
+
+    const adminLink = (
+      <ul className="navbar-nav mr-auto">
+      <li className="nav-item">
+        <NavLink className="nav-link" to="/blog/add">
+          Add Blog
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link" to="/unpublished">
+          Unpublished
         </NavLink>
       </li>
     </ul>
@@ -48,7 +64,9 @@ class Navbar extends Component {
           </button>
 
           <div className="collapse navbar-collapse" id="mobile-nav">
+            {this.props.isAdminAuth ? adminLink : null}
             {localStorage.jwtToken ? logout : guestLink}
+
           </div>
         </div>
       </nav>

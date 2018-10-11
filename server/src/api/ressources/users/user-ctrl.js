@@ -25,7 +25,8 @@ export default {
         lastName: value.lastName,
         password: encryptedPass,
         avatar: avatar,
-        date: value.date
+        date: value.date,
+        isAdmin: value.email === "ducteil.n@gmail.com" ? true : false
       })
       return res.json(user)
       console.log(user)
@@ -54,9 +55,11 @@ export default {
       const token = jwt.issue({
         id: user._id,
         email: user.email,
+        userName: user.userName,
         firstName: user.firstName,
         lastName: user.lastName,
-        avatar: user.avatar
+        avatar: user.avatar,
+        isAdmin: user.isAdmin
         }, '3h')
       return res.json(token)
     } catch (err) {
@@ -69,7 +72,8 @@ export default {
     return res.json({
     id: req.user.id,
     userName: req.user.userName,
-    email: req.user.email
+    email: req.user.email,
+    isAdmin: req.user.isAdmin
     })
   }
 }

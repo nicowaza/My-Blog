@@ -9,25 +9,43 @@ class UnPublishedBlog extends Component {
   }
 
   componentDidMount(){
-    axios.get()
+    axios
+    .get("http://localhost:6543/api/blogs/unpublished")
+    .then(res => {
+       this.setState({blog :res.data})
+       console.log("axios",this.state.blog)
+      })
+    .catch(err => console.log(err));
   }
-  render () {
-    return(
-      <div className="card text-center">
-             <div className="card-header">
-               Featured
-             </div>
-             <div className="card-body">
-               <h5 className="card-title">Special title treatment</h5>
-               <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
-               <a href="#" className="btn btn-primary">Go somewhere</a>
-             </div>
-             <div className="card-footer text-muted">
-               2 days ago
-             </div>
-           </div>
-    )
+  mapRender = () => {
+    const {blog} = this.state;
+    if(blog) {
+      return blog.map(blog => {
+        return <div key={blog.id}>
+          <div className="card text-center" style={{width: '30rem', margin: 'auto'}}>
+            <div className="card-header">{blog.title}</div>
+            <div className="card-body">
+              <p className="card-text">{blog.text}</p>
+            </div>
+            <div className="card-footer text-muted">
+              Published by : {blog.author}
+              <br/>
+              on the {blog.date}
+            </div>
+          </div>
+          <br />
+          <br />
+        </div>
+      })
+    }
+  }
 
+  render() {
+    return (
+      <div className="container">
+        {this.mapRender()}
+      </div>
+    );
   }
 }
 

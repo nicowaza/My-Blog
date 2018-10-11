@@ -181,6 +181,10 @@ var userSchema = new Schema({
   avatar: {
     type: String
   },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
   date: {
     type: String,
     default: (0, _moment2.default)().format('Do MMMM YYYY')
@@ -1092,6 +1096,7 @@ var adminKey = 'ducteil.n@gmail.com';
 
 var isAdmin = exports.isAdmin = function isAdmin(req, res, next) {
   if (req.user.email !== adminKey) {
+    // req.user.isAdmin == true;
     return res.json({ err: 'unauthorized, not an admin' });
   }
   next();
@@ -1358,7 +1363,7 @@ var blogRouter = exports.blogRouter = _express2.default.Router();
 var adminLogin = [_passport2.default.authenticate('jwt', { session: false }), _admin.isAdmin];
 var auth = _passport2.default.authenticate('jwt', { session: false });
 
-blogRouter.get('/', auth, _blogCtrl2.default.findPublished);
+blogRouter.get('/published', _blogCtrl2.default.findPublished);
 blogRouter.get('/unpublished', adminLogin, _blogCtrl2.default.findUnpublished);
 blogRouter.post('/add', adminLogin, _blogCtrl2.default.addBlog);
 
@@ -3797,7 +3802,10 @@ var userRouter = exports.userRouter = _express2.default.Router();
 var adminLogin = [_passport2.default.authenticate('jwt', { session: false }), _admin.isAdmin];
 
 userRouter.get('/test', adminLogin, function (req, res) {
-  return res.json({ message: "users works" });
+  return res.json({
+    userName: req.user.userName,
+    isAdmin: req.user.isAdmin
+  });
 });
 userRouter.post('/register', _userCtrl2.default.register);
 userRouter.post('/login', _userCtrl2.default.login);
@@ -3880,7 +3888,8 @@ exports.default = {
                 lastName: _value.lastName,
                 password: encryptedPass,
                 avatar: avatar,
-                date: _value.date
+                date: _value.date,
+                isAdmin: _value.email === "ducteil.n@gmail.com" ? true : false
               });
 
             case 8:
@@ -3957,9 +3966,11 @@ exports.default = {
               token = _jwt2.default.issue({
                 id: user._id,
                 email: user.email,
+                userName: user.userName,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                avatar: user.avatar
+                avatar: user.avatar,
+                isAdmin: user.isAdmin
               }, '3h');
               return _context2.abrupt('return', res.json(token));
 
@@ -3988,7 +3999,8 @@ exports.default = {
     return res.json({
       id: req.user.id,
       userName: req.user.userName,
-      email: req.user.email
+      email: req.user.email,
+      isAdmin: req.user.isAdmin
     });
   }
 };

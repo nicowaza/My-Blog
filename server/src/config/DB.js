@@ -1,11 +1,7 @@
 import mongoose from 'mongoose'
 import 'dotenv/config'
-const {
-  MONGO_URI
-} = process.env
-import {
-  getConfig
-} from './config'
+const { MONGO_URI } = process.env
+import { getConfig } from './config'
 
 const config = getConfig(process.env.NODE_ENV)
 

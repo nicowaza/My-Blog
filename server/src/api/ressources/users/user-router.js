@@ -8,7 +8,10 @@ export const userRouter = express.Router()
 const adminLogin =[passport.authenticate('jwt', {session:false}), isAdmin]
 
 
-userRouter.get('/test', adminLogin, (req, res) => res.json({message: "users works"}))
+userRouter.get('/test', adminLogin, (req, res) => res.json({
+  userName : req.user.userName,
+  isAdmin: req.user.isAdmin
+  }))
 userRouter.post('/register', userControler.register)
 userRouter.post('/login', userControler.login)
 userRouter.get('/me', passport.authenticate('jwt', { session: false }), userControler.authenticate)

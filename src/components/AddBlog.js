@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios'
+import jwt_decode from 'jwt-decode'
+import setAuthToken from '../utils/setAuthtoken'
 
 
 
@@ -9,10 +11,23 @@ class AddBlog extends Component {
     this.state = {
       title: "",
       text:"",
-      ispublished: true
+      ispublished: true,
+      isAdmin: false
+
     }
     this.onChange= this.onChange.bind(this)
     this.onSubmit= this.onSubmit.bind(this)
+  }
+
+  componentDidMount(){
+    let token = localStorage.getItem('jwtToken')
+    let decodedToken = jwt_decode(token)
+    console.log(decodedToken.isAdmin);
+    if(decodedToken.isAdmin===true){
+      this.setState({
+        isAdmin:true
+      })
+    }
   }
 
   onChange(e) {
@@ -26,7 +41,7 @@ class AddBlog extends Component {
       text: this.state.text,
       ispublished: this.state.ispublished
     }
-  axios.post('http://localhost:6543/api/blogs/add', blog)
+  axios.post('http://localhost:6543/api/blogs/add', blog, setAuthToken)
     .then(res => {
       console.log(res)
       this.props.history.push("/")
@@ -34,6 +49,9 @@ class AddBlog extends Component {
     .catch(err => console.log(err))
   }
   render() {
+
+
+
     return (
       <div className="container">
         <form onSubmit={this.onSubmit}>

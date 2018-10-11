@@ -28,6 +28,10 @@ const userSchema = new Schema ({
   avatar: {
     type: String,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
   date: {
     type: String,
     default: moment().format('Do MMMM YYYY')

@@ -1,21 +1,31 @@
 import React, { Component } from "react";
 import axios from "axios";
+import setAuthToken from '../utils/setAuthtoken'
 
 class PublishedBlog extends Component {
   state = {
-    blog: []
-  };
-
-  componentDidMount() {
-    axios
-      .get("http://localhost:6543/api/blogs/")
-      .then(res => {
-         this.setState({blog :res.data})
-         console.log("axios",this.state.blog)
-        })
-      .catch(err => console.log(err));
+    blog:[]
   }
 
+  componentDidMount(){
+    this.axiosGet();
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      blog: []
+    })
+  }
+
+  axiosGet = () => {
+    axios
+    .get("http://localhost:6543/api/blogs/published")
+    .then(res => {
+       this.setState({blog :res.data})
+       console.log("axios",this.state.blog)
+      })
+    .catch(err => console.log(err));
+  }
   mapRender = () => {
     const {blog} = this.state;
     if(blog) {

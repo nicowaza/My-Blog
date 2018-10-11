@@ -8,7 +8,7 @@ export const blogRouter = express.Router()
 const adminLogin =[passport.authenticate('jwt', {session:false}), isAdmin]
 const auth =passport.authenticate('jwt', {session:false})
 
-  blogRouter.get('/', auth, blogControler.findPublished)
+  blogRouter.get('/published', blogControler.findPublished)
   blogRouter.get('/unpublished',adminLogin, blogControler.findUnpublished)
   blogRouter.post('/add', adminLogin, blogControler.addBlog)
 

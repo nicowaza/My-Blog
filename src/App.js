@@ -65,6 +65,7 @@ class App extends Component {
    if (isAdminAuth === true){
      routes = (
        <Switch>
+         <Route path="/" component={PublishedBlog} exact />
          <Route path="/blog/add" component={AddBlog}/>
          <Route path="/blog/edit" component={EditBlog}/>
          <Route path="/unpublished" component={UnPublishedBlog}/>

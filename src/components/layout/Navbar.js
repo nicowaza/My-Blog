@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
+import PropTypes from "prop-types";
 
 class Navbar extends Component {
 
   logout = () => {
-    localStorage.removeItem("jwtToken")
+    localStorage.removeItem("jwtToken");
   }
 
   render() {

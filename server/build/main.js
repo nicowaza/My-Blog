@@ -1214,6 +1214,10 @@ var _userModel2 = _interopRequireDefault(_userModel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//A Passport strategy for authenticating with a JSON Web Token.
+// This module lets you authenticate endpoints using a JSON web token. It is intended to be     used to secure RESTful endpoints without sessions.
+// @https://github.com/themikenicholson/passport-jwt
+
 var configJWTStrategy = exports.configJWTStrategy = function configJWTStrategy() {
   var opts = {
     jwtFromRequest: _passportJwt2.default.ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -1363,7 +1367,7 @@ var blogRouter = exports.blogRouter = _express2.default.Router();
 var adminLogin = [_passport2.default.authenticate('jwt', { session: false }), _admin.isAdmin];
 var auth = _passport2.default.authenticate('jwt', { session: false });
 
-blogRouter.get('/published', _blogCtrl2.default.findPublished);
+blogRouter.get('/published', auth, _blogCtrl2.default.findPublished);
 blogRouter.get('/unpublished', adminLogin, _blogCtrl2.default.findUnpublished);
 blogRouter.post('/add', adminLogin, _blogCtrl2.default.addBlog);
 

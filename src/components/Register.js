@@ -28,6 +28,10 @@ class Register extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
+  //si on veut utiliser une fonction sans la binder on peut l'écrire sous forme de fonction fléchée : 
+  // onChange(e)= () => {
+  //   this.setState({ [e.target.name]: e.target.value });
+  // }
 
   onSubmit(e) {
     e.preventDefault();
